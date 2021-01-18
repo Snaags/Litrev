@@ -1,0 +1,98 @@
+
+
+
+\section {Bayesian Optimisation}
+
+	Bayesian Optimisation (BO) methods have become popular over the last couple of years due to the SOTA performance they can produce \cite{32} \cite{20}. One of the core weaknesses of BO is the computationally expensive nature of the many BO methods in particular Sequential Model-based Bayesian Optimisation (SMBO). 
+
+	\par
+
+	The objective of BO, in the context of hyper-parameter optimisation, can be described as trying to minimize \(x^* = argmin~ f(x)\) where \(x \in X\) and \(X \subseteq \mathbf{R} ^k\), \textit{X} is bounded and compact and \textit{k} is the number of hyper-parameters. This method assumes a correlation between observations and endeavours to produce useful points for evaluating, \textit{x}, by exploiting a model constructed based upon a set of function observations \( D = \{(x_n,y_n)\}_{n=1}^N\) where \(y_n \sim \mathcal{N}(f(x), \sigma^2) \).
+
+
+	\begin{itemize}
+
+	\item assumes correlation between function evaluations
+
+	\item uses fantasises in [17]
+
+	\end{itemize}
+
+
+
+
+
+
+
+
+	\subsection{Posterior Model}
+
+		The model in a BO problem makes estimations of the modelled function, in our case validation score across hyper-parameter space, while maintaining a measurement of uncertainty. The model returns a mean and variance prediction for a function f(x) at point x. \cite{35} 
+
+		\begin{itemize}
+
+		\item 
+
+		\item 
+
+		\end{itemize}
+
+
+
+
+		\subsubsection{Gaussian Process}
+
+			The most common model used in hyper-parameter optimisation is a Gaussian Process (GP)\cite{17}. The GP is a priors over function which produces a distribution for the value of f(x) from a point x. The Gaussian Processes is widely used due to its flexibility as well as the simplicity of computing of many common acquisition functions from it.
+
+
+		\begin{itemize}
+
+		\item Kernel
+
+		\item Scales poorly in high dimentional space
+
+		\item 
+
+		\end{itemize}
+
+
+
+		\subsubsection{Tree-Structured Parzen Estimator}
+
+			\cite{20} introduces a model based on Parzen Window Density or Kernel Density estimation, known as Tree-Structured Parzen Estimator (TPE). This was able to outperform both random and GP based Bayesian hyper-parameter optimisation on the MNIST data-set. \cite{32} has more recently used this model to great success, leading to its use as the underlying system in the popular Auto-ML tool “HyBandSter” \cite{34}
+
+
+
+		\subsubsection{Bayesian Neural Networks}
+
+			Another method for modelling the distribution over a function is with the use of a neural network. DNGO \cite{22} is an implementation of this that uses a Deep Neural Network in combination with a Bayesian linear regressor to create an adaptive basis regression as the surrogate function model. This approach has the advantage of scaling linearly, in terms of computation, with the number of observations rather than cubically as with a GP. This method was able to achieve parity with SOTA in hyper-parameter optimisation on CIFAR-10. BOHAMIANN \cite{40} was able to out perform DNGO on a number of hyper-parameter optimisation tasks while supporting native parallelisation, however, due to the complexity of this method, there are a number of key hyper-parameters that need to be effectively turned to produce optimal results.
+
+
+
+
+	\subsection {Acquisition Function}
+
+		The acquisition function is used in BO to select the next point in hyper-parameter space at which to sample. This is the component of the system that manages the exploit/explore problem. One of the key problems faced by BO is the sequential nature of the optimisation process. The acquisition function computes a point x in hyper-parameter space as the next point to be queried using data from the posterior model. Using common acquisition functions such as Expected Improvement (EI), Probability of Improvement or Upper Confidence Bound in combination with a Gaussian Process (GP), any subsequent polling for query points without updating the posterior model will simply return the same point x.
+		There are asynchronous implementations used as a solution to this problem, which commonly involve updating the posterior model as a worker completes an evaluation, producing a new query point from the updated posterior model and re-dispatching the worker. \cite{26}\cite{27}\cite{20}
+
+
+
+		\subsubsection{Expected Improvement / EI-MCMC}
+
+			The most common of acquisition function is expected improvement (EI) due to the fact it is considered robust and does not require hyper-parameter tuning of its own. \cite{17} EI-MCMC is an extension of this function which allows for asynchronous parrallelisation based on Monte Carlo estimates of the acquisition function.
+
+
+
+		\subsubsection{Local Penalisation}
+
+			One intuitive solution to this problem is the application of local penalization to the acquisition function in order to create batches of query points as shown in \cite{37}. However, this method can be consider as “doubly greedy” \cite{36} in cases where a greedy acquisition function is used as the basis for local penalisation.
+
+
+
+
+		\subsubsection{Thompson Sampling}
+
+			Thompson Sampling (TS) is one method that has been applied to the problem of BO parrallelisation\cite{26}\cite{27}. In TS the next point to be queried (x*) is selected based on a random sampling of the posterior probability distribution. This gives theoretically grounded method for maintaining diversity in synchronise selection of evaluation points without updating the posterior distribution. This was able to outperform other parallel BO methods in hyper-parameter optimisation on the CIFAR-10 data-set. 
+			\cite{26} builds on the results of \cite{27} introduction a variant referred to as AEGiS which has a chance of performing a purely explorative evaluation rather than utilising TS.
+
+			 \cite{36} puts forward a non greedy method for the parallel acquisition of query points which was able to outperform other (greedy) parallel BO systems on synthetic and real world bench-marking functions.
