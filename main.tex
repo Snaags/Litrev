@@ -297,7 +297,7 @@ The design and restriction of the of the search space over which a method implem
 
 
 
-
+\newpage
 
 		\subsubsection{LEMONADE and NSGA-Net}		
 
@@ -384,7 +384,7 @@ The design and restriction of the of the search space over which a method implem
 
 		\end{figure}
 
-
+\newpage
 
 	\subsection{Mutation}
 
@@ -403,6 +403,20 @@ The design and restriction of the of the search space over which a method implem
 		This is a system for hyper-parameter optimisation which utilizes a variant of the  successive-halving\cite{SH} method used in HyperBand (see Sec 4.1) for early-stopping, A portion of the population abandon their search and copy the structure, hyper-parameters and weights of high performing networks. The hyper-parameters of this new replicated network are then mutated randomly to allow for more thorough examination of lucrative search spaces. This method of exploiting successful networks produces a schedule of hyper-parameters which change over the course of the training process rather than a static set. While this does offer the potential for a more dynamic training system, the size of the search space is increased dramatically as the number of hyper-parameter schedules is combinatorially larger than the original number of hyper-parameter sets.
 
 
+	\subsection{Performance}
+
+	%Performance
+	
+	%Efficiency (Computation)
+
+	Genetic algorithms are generally not highly computationally efficient, especially with regard to performance per evaluation, with the SOTA results on NAS problems coming second to only reinforcement learning in terms of computations cost \cite{51} \cite{41} \cite{real2017}. However, these approaches do not suffer from the same computational intractability at scale that can effect more data efficient systems such as Bayesian Optimisation. Furthermore, these systems tend to have very small computational overheads especially when compared to the expensive function evaluations in HPO. One of the other important advantages of GAs is that they are natively highly parallelisable. This fact in tandem with the absence of problematic computational bottle-necks at scale and high quality performance makes this type of system highly suitable to large scale deployment.
+
+	%Parallelisation
+		%Highly parallelisable
+	%Robostness/Hyperparameters
+
+
+\newpage
 
 \section {Bayesian Optimisation}
 
@@ -625,12 +639,19 @@ The design and restriction of the of the search space over which a method implem
 
 			A similar approach which utilizes Thompson Sampling, AEGis, introduction by \cite{26}, combines this technique with periodic random selection of query points. This method was able to outperform other Parallel BO methods on synthetic function optimisation, however, it was unable to compete with vanilla TS on hyper-parameter optimisation tasks. When compared with TS, AEGiS also performed worse as the number of workers increased.
 
+	\subsection{Performance}
+
+	%Performance
+		Bayesian optimisation is generally about to a high quality, consistent performance even with a lower computational budget. This has lead to its incorporation in many popular frame works for HPO such as \textit{spearmint} and \textit{HpBandSter}. BO makes efficient use of function evaluations, however, as the number of evaluations increases the computational overhead also increases in methods utilizing Gaussian Processes. This issue is further exacerbated in high-dimensional search spaces. Although there are alternative models such as the TPE and Bayesian neural networks, which do not suffer from this issue, neither produce the same well calibrated uncertainty as the Gaussian Process. The Bayesian neural network is particularly lacking in terms of robustness, requiring its own set of well tuned hyper-parameters to function effectively. Another drawback is the naturally sequential nature of BO, which leads sub-linear parallel worker efficiency with large worker pools. However, some methods such as Thompson Sampling have been able to achieve near linear scaling even at scale. While Bayesian networks suffer from delicate hyper-parameters, one of the advantages of GPs is the ability to integrate out or fit hyperparameters automatically via maximum likelihood.
+		
+
+\newpage
 
 \section {Many-Armed Bandit and Early-Stopping}\label{bandit}
 
 
 
-	The problem of hyper-parameter optimisation can also be framed as a many armed bandit problem. A bandit problem describes a problem where an agent has a number of possible actions which yield a reward. Initially the association between an action and its reward is unknown to the agent. In a classic stochastic bandit problem, each action produces a reward randomly based on the probability distribution of reward linked to that specific action. The agent must therefore make a series of actions to gain information about reward associated with each action while also attempting to maximise the total reward. Figure \ref{fig:BP1} In this case there is a much higher uncertainty in \(x_2\) than \(x_3\) which has a higher mean value. A highly greedy approach to this problem would lead to the exploitation of \(x_3\) rather than the exploration of \(x_2\), which may not the optimal solution. In particular HPO can be considered a infinitely armed bandit problem as in practice the number of possible actions (hyperparameter sets) is far larger than the possible number of models that can be trained to a meaningful level \cite{infbandit}.
+	The problem of hyper-parameter optimisation can also be framed as a many armed bandit problem. A bandit problem describes a problem where an agent has a number of possible actions which yield a reward. Initially the association between an action and its reward i`s unknown to the agent. In a classic stochastic bandit problem, each action produces a reward randomly based on the probability distribution of reward linked to that specific action. The agent must therefore make a series of actions to gain information about reward associated with each action while also attempting to maximise the total reward. Figure \ref{fig:BP1} In this case there is a much higher uncertainty in \(x_2\) than \(x_3\) which has a higher mean value. A highly greedy approach to this problem would lead to the exploitation of \(x_3\) rather than the exploration of \(x_2\), which may not the optimal solution. In particular HPO can be considered a infinitely armed bandit problem as in practice the number of possible actions (hyperparameter sets) is far larger than the possible number of models that can be trained to a meaningful level \cite{infbandit}.
 
 	\begin{figure}[h]\label{fig:BPI}
 	
@@ -757,6 +778,11 @@ The design and restriction of the of the search space over which a method implem
 		Algorithm \ref{alg:HB} describes HyperBand and its relation to Successive-Halving which is modified in this case to take a minimum amount of resources, \(r\) and \(\eta\) which denotes the factor by which the number of models is reduced by at each round. \(R\) and \(\eta\) are user defined hyper-parameters, with the former defining the maximum resources allocated to a single model between evaluations. The total number of brackets is defined by \(s_{max}\). 
 
 
+\subsection{Performance}
+%performance
+In practice, many of the purely early stopping approaches (SHA, HyperBand, ASHA) are effectively a extremely efficient random search. This leads to the highly competitive results in small to medium computational budgets, with model accuracy increasing rapidly over the initial stages of the search. This advantage tends to dissipate in the later stages of a search where GA and in particular BO are able to leverage the information from the earlier model evaluations to make more effective hyperparameter proposals compared with random search. The combination of early stopping with bayesian and evolutionary approaches has been successful in creating a best of both worlds scenario rapidly finding good initial solutions while also converging to competitive final solutions with larger budgets in methods such as BOBH and PBT \cite{32} \cite{34} \cite{39}.
+
+
 \section{Reinforcement Learning}
 
 	Reinforcement learning is an approach to NAS which became popular with the introduction of RL-NAS \cite{NAS-RL} which utilised a controller agent trained via reinforcement learning to generate model architectures for image classification and natural language processing problems. This approach was able to set a new state of the art in CIFAR-10, outperforming human hand-designed systems. Figure \ref{fig:RL} shows an example of the controller network. While this approach was able to achieve very strong performance, the computational budget required was extremely large, requiring 22,400 GPU days of training. 
@@ -776,7 +802,9 @@ The design and restriction of the of the search space over which a method implem
 	\par
 	Another approach to this problem is to generate the network weights through the use of a \textit{HyperNetwork} \cite{hypernetworks}. The concept of a \textit{HyperNetwork} involves training a smaller network to generate the weights of a larger network. In particular this has interesting applications in RNNs where the weights can be generated dynamically at each time-step. SMASH \cite{smash} is an application of this method to the NAS problem which was able to achieve some success.  
 
+\subsection{Performance}
 
+	In the sub-category of NAS these RL based and in particular the later few-shot variants have a major impact on the SOTA since their inception. One-shot methods in particular have been able to match or surpass results of previous SOTA GA and RL techniques in computer vision applications while reducing the computational cost by orders of magnitude. However, the application of these approaches to the broader field of hyperparameter optimisation is largely unexplored. In particular it is not clear how supernetwork based methods would be applied to the broader task of HPO. 
 
 %\section{Bi-Level/Gradient Descent}
 
@@ -785,6 +813,7 @@ The design and restriction of the of the search space over which a method implem
 %	[53] Darts - gradient descent for cell architecture search  
 
 %	Networks without training
+
     
 
 
@@ -793,6 +822,9 @@ The design and restriction of the of the search space over which a method implem
 
 	Meta-learning has gained traction as a possible path away from the black-box perspective of hyper-parameter optimisation. This involves the application of machine learning to configuration selection. This has been implemented in various forms with success, such as a type of transfer learning in network embedding applications \cite{9}. This has also been implemented as an interface which allows experts to effectively warm start an auto-ML pipeline with knowledge of effective configurations for similarly structured problems\cite{29}. Another approach has been to train an agent via reinforcement learning to select configurations[28]. These applications of meta-learning are effective at reducing the convergence time however, rarely achieve significantly superior final performance than the methods they are supplementing.\cite{31}\cite{29}
 
+
+
+\newpage
 \printbibliography
 
 

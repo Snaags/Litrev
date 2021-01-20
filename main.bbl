@@ -1154,6 +1154,69 @@
       \strng{authorbibnamehash}{55dd19704466deb1c1bbae21cbcefb10}
       \strng{authornamehash}{345b424271364c0e0429d3a5b83e507d}
       \strng{authorfullhash}{55dd19704466deb1c1bbae21cbcefb10}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.NE}
+      \field{eprinttype}{arXiv}
+      \field{title}{Large-Scale Evolution of Image Classifiers}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1703.01041
+      \endverb
+    \endentry
+    \entry{real2017}{misc}{}
+      \name{author}{8}{}{%
+        {{hash=0cb4f7157753ceba009c63e8dc033ed4}{%
+           family={Real},
+           familyi={R\bibinitperiod},
+           given={Esteban},
+           giveni={E\bibinitperiod}}}%
+        {{hash=1f07f887fdbaea3ca8281745735256d1}{%
+           family={Moore},
+           familyi={M\bibinitperiod},
+           given={Sherry},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f80edf92c872088191b3ae1861ccbba3}{%
+           family={Selle},
+           familyi={S\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e78159416ed55b8e24182fe25ace3e12}{%
+           family={Saxena},
+           familyi={S\bibinitperiod},
+           given={Saurabh},
+           giveni={S\bibinitperiod}}}%
+        {{hash=6a1bb9f8106eca81b9a51b2fdaf4f50d}{%
+           family={Suematsu},
+           familyi={S\bibinitperiod},
+           given={Yutaka\bibnamedelima Leon},
+           giveni={Y\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=aaa7cb90b2e1cc2079b5e8a087a903c9}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Jie},
+           giveni={J\bibinitperiod}}}%
+        {{hash=841a83a4bb5e622d6e1bde4818879016}{%
+           family={Le},
+           familyi={L\bibinitperiod},
+           given={Quoc},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e132f83947468a31a3caafd88b2659c5}{%
+           family={Kurakin},
+           familyi={K\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{345b424271364c0e0429d3a5b83e507d}
+      \strng{fullhash}{55dd19704466deb1c1bbae21cbcefb10}
+      \strng{bibnamehash}{55dd19704466deb1c1bbae21cbcefb10}
+      \strng{authorbibnamehash}{55dd19704466deb1c1bbae21cbcefb10}
+      \strng{authornamehash}{345b424271364c0e0429d3a5b83e507d}
+      \strng{authorfullhash}{55dd19704466deb1c1bbae21cbcefb10}
+      \field{extraname}{2}
       \field{sortinit}{2}
       \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
